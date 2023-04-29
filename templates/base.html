@@ -8,14 +8,19 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="{% static 'js/index.js' %}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
 
-    <title>Todo List</title>
+    <title>{% block title %}{% endblock title %}</title>
+
+    <style>
+       {% block style %}{% endblock style %}
+    </style>
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href="#">TODO</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" /*style="background-color: #e3f2fd;"*/>
+        <a class="navbar-brand" href="/">MyBlog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -25,14 +30,17 @@
             <li class="nav-item {% block homeactive %}{% endblock homeactive %}">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item {% block tasksactive %}{% endblock tasksactive %}">
-              <a class="nav-link" href="/tasks">Task</a>
+            <li class="nav-item {% block blogsactive %}{% endblock blogsactive %}">
+              <a class="nav-link" href="/blog">Blogs</a>
             </li>
+            <li class="nav-item {% block contactactive %}{% endblock contactactive %}">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
         </ul>
-          {% comment %} <form class="form-inline my-2 my-lg-0">
+          <form name="search" action="/search" method="get" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form> {% endcomment %}
+          </form>
         </div>
       </nav>
 
@@ -44,7 +52,10 @@
           Copyright &copy; 2022 | All rights reserved
         </p>
   
-      </footer>
+    </footer>
+
+    
+    <script src="{% static 'js/index.js' %}"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
