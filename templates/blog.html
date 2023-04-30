@@ -5,6 +5,22 @@
 {% block blogsactive %}active{% endblock blogsactive %}
 
 {% block body %}
+{% if edit %}
+<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+  <strong>Success!</strong> Your Blog has been UPDATED.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% if delete %}
+<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+  <strong>Hey!</strong> You have DELETED your Blog.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
 <div class="container">
 
     {% for blog in blogs %}
@@ -15,7 +31,7 @@
       <div class="card__body">
         <span class="tag tag-blue">Technology</span>
         <h4><a href="/blogpost/{{blog.slug}}" style="color: inherit;">{{blog.title}}</a></h4>
-        <p>{{blog.content|slice:70}}...</p>
+        <p>{{blog.content|safe|slice:80}}...</p>
       </div>
       <div class="card__footer">
         <div class="user">
@@ -26,9 +42,11 @@
           </div>
         </div>
       </div>
+      <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your Blog</button>
+      <button type="submit" class="btn btn-outline-danger mt-1" onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button>
     </div>
     {% endfor %}
-    {% comment %} <div class="card">
+    <!-- <div class="card">
       <div class="card__header">
         <img src="https://source.unsplash.com/600x400/?food" alt="card__image" class="card__image" width="600">
       </div>
@@ -65,6 +83,6 @@
           </div>
         </div>
       </div>
-    </div> {% endcomment %}
+    </div> -->
   </div>
 {% endblock body %}
