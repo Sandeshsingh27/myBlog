@@ -30,17 +30,17 @@
     
 <section>
     <div class="container blogpost my-0 pb-4">
-       
         <div class="row blogimage text-center">
-            <div class="col-lg-8 col-md-6 mx-auto my-3"><img class="img-fluid"
-                    src="https://source.unsplash.com/600x400/?computer"
-                    alt="">
+            <div class="col-12 mx-auto my-3"><img class="img-fluid"
+                src="https://source.unsplash.com/600x400/?computer"
+                alt="">
             </div>
         </div>
-
+        
         <div class="row blogcontent">
-            <h3 class="text-uppercase mx-auto my-4">{{blog.title}}</h3>
-            <div class="col-lg-12 col-md-10 mx-auto">
+            <a class="col-12" href="{% url 'blog' %}" style="text-decoration: none;"><< Back To Blog</a>
+            <h3 class="col-12 text-uppercase mx-auto my-4 text-center">{{blog.title}}</h3>
+            <div class="col-lg-12 col-md-12 mx-auto">
                 <div class="font-weight-light" style="margin-bottom: 10px">{{blog.time.date}} at {{blog.time.time}}</div>
                 <div class="text-content blogbody font-weight-normal">
                     {{blog.content|safe}}

@@ -3,4 +3,13 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    class Media:
+        css= {
+            "all": ("css/admin.css",)
+        }
+
+        js= ("js/admin.js",)
+
+
+admin.site.register(Blog, BlogAdmin)
