@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     sc.onload=()=>{
         tinymce.init({
             selector: '#id_content',
-            width: 600,
+            // width: 600, // removing width will make the this field responsive and will take 100% of screen size
             height: 300,
             plugins: [
               'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
