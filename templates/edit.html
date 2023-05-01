@@ -6,7 +6,7 @@
 <section id="editBlog">
     <div class="container d-block  my-0 px-0 pb-5">
       <h2 class="text-center pt-5">Edit Blog</h2>
-      <form name="editBlogForm" action="/blog/{{blog.sno}}/" method="post" onsubmit="return titleRequired()">
+      <form name="editBlogForm" action="/blog/{{blog.sno}}/" method="post" onsubmit="return titleRequired('edit')">
         {% csrf_token %}
         <div class="form-group">
           <label for="title">Title</label>
