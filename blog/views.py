@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
+from django.urls import reverse
+from urllib.parse import urlencode
 
 # Create your views here.
 
@@ -20,9 +22,11 @@ def index(request):
 
 def blog(request):
     blogs=Blog.objects.all()
-    # getting session variable passed from delete function to render some alert on blog.html
-    delete = request.session.get('delete') # get the value from session
-    context={'blogs':blogs, 'delete':delete}
+    # getting variable passed from delete function to render some alert on blog.html through redirect method
+    delete = True if request.GET.get('delete') else False
+    edit = True if request.GET.get('edit') else False
+
+    context={'blogs':blogs, 'delete':delete, 'edit':edit}
     return render(request, "blog.html", context)
 
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123
@@ -56,9 +60,14 @@ def update(request, sno):
         blog.slug=slug
         
         blog.save()
-        context={'edit':True, 'delete':False}
         print('Blog updated')
-        # return redirect('/tasks')
+
+        # here we are passing value through url to the redirecting page
+        base_url = reverse('blog')  # 1 /blog/
+        context={'edit':True}
+        query_string =  urlencode(context)  # 2 'edit' = True
+        url = '{}?{}'.format(base_url, query_string)  # 3 /products/?edit=True
+        return redirect(url)
 
     blogs=Blog.objects.all()
     context.update({'blogs':blogs})
@@ -71,15 +80,15 @@ def delete(request, sno):
     if item:
         item.delete()
 
-        # context={'edit':False, 'delete':True}
         print('Blog updated')
-        # creating session variable to store value, so that alert can be displayed on Blog.html
-        # So, if you want to pass some value through redirect method can be passed using session creation
-        # and second way of doing it is to pass value in url and get it from there
-        # refer this problem-> https://stackoverflow.com/questions/32274852/django-dictionary-passed-in-redirect-is-not-showing-in-template
-        request.session['delete'] = True # set in session
-        return redirect('/blog')
 
-    # context.update({'item':item})
+        # here we are passing value through url to the redirecting page
+        base_url = reverse('blog')  # 1 /blog/
+        context={'delete':True}
+        query_string =  urlencode(context)  # 2 'delete' = True
+        url = '{}?{}'.format(base_url, query_string)  # 3 /products/?delete=True
+        return redirect(url)  # 4
+
+    context.update({'item':item})
     return render(request, 'blog.html', context)
 
