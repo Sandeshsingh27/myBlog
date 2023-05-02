@@ -70,6 +70,15 @@ def blogpost(request, slug):
     return render(request, "blogpost.html", context)
 
 def contact(request):
+    if request.method=='POST':
+        name= request.POST.get('name')
+        email= request.POST.get('email')
+        phone= request.POST.get('phone')
+        desc= request.POST.get('desc')
+
+        instance = Contact(name=name, email=email, phone=phone, desc=desc)
+        instance.save()
+        print("Contact details are saved")
     return render(request, "contact.html")
 
 def search(request):

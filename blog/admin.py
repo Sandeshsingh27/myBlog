@@ -3,6 +3,7 @@ from .models import *
 
 # Register your models here.
 
+# Below class is used to apply javascript and css on admin panel page
 class BlogAdmin(admin.ModelAdmin):
     class Media:
         css= {
@@ -13,3 +14,5 @@ class BlogAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Blog, BlogAdmin)
+
+admin.site.register(Contact)
