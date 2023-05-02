@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block style %}
+body{
+background: #f7f7f7 !important;
+}
+{% endblock style %}
+
 <!-- {% block contactactive %}active{% endblock contactactive %} -->
 
 {% block body %}
 <section id="editBlog">
+  <a class="col-12" href="{% url 'blog' %}" style="text-decoration: none;"><< Back To Blog</a>
     <div class="container d-block  my-0 px-0 pb-5">
       <h2 class="text-center pt-5">Edit Blog</h2>
       <form name="editBlogForm" action="/blog/{{blog.sno}}/" method="post" onsubmit="return titleRequired('edit')">
