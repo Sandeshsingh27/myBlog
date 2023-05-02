@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.urls import reverse
 from urllib.parse import urlencode
+import math
 
 # Create your views here.
 
@@ -21,12 +22,45 @@ def index(request):
     return render(request, "index.html", context)
 
 def blog(request):
+    # PAGINATION LOGIC STARTS
+    # designing pagination logic
+    no_of_posts=3
+    page= request.GET.get('page') # fetching value from url
+
+    # By default, request.GET.get('page') returns string and if there is no page then return None
+    # so if there is no page, make page = 1 otherwise convert ot integer
+    if page is None:
+        page = 1
+    else:
+        page = int(page)
+
+    # fetching all blogs from database
     blogs=Blog.objects.all()
+    # counting all blogs in the databases to perform pagination logic
+    length = len(blogs)
+    # here we are using python slicing function
+    # below line just used to show how many blogs can be rendered on blog page and from where to where (ie, if page = 1, then blogs from index 0 to 2 will be displayed)
+    blogs = blogs[(page-1)*no_of_posts: page*no_of_posts]
+
+    # if page is greater than 1 then prev will be decremented by page-1 else make it None
+    if page > 1:
+        prev=page-1
+    else:
+        prev=None
+
+    # Similarly, if page is less than ceiling value of required number of pages then nxt will be incremented by page+1 else make it None
+    if page<math.ceil(length/no_of_posts):
+        nxt=page+1
+    else:
+        nxt=None
+    
+    # PAGINATION LOGIC ENDS
+
     # getting variable passed from delete function to render some alert on blog.html through redirect method
     delete = True if request.GET.get('delete') else False
     edit = True if request.GET.get('edit') else False
 
-    context={'blogs':blogs, 'delete':delete, 'edit':edit}
+    context={'blogs':blogs, 'delete':delete, 'edit':edit, 'prev':prev, 'nxt':nxt}
     return render(request, "blog.html", context)
 
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123

@@ -5,23 +5,24 @@
 {% block blogsactive %}active{% endblock blogsactive %}
 
 {% block body %}
-{% if edit %}
-<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
-  <strong>Success!</strong> Your Blog has been UPDATED.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endif %}
-{% if delete %}
-<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-  <strong>Hey!</strong> You have DELETED your Blog.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endif %}
-<div class="container">
+<section id="blog">
+  {% if edit %}
+  <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    <strong>Success!</strong> Your Blog has been UPDATED.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
+  {% if delete %}
+  <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+    <strong>Hey!</strong> You have DELETED your Blog.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
+  <div class="container">
 
     {% for blog in blogs %}
     <div class="card">
@@ -42,47 +43,26 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your Blog</button>
-      <button type="submit" class="btn btn-outline-danger mt-1" onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button>
+      <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your
+        Blog</button>
+      <button type="submit" class="btn btn-outline-danger mt-1"
+        onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button>
     </div>
     {% endfor %}
-    <!-- <div class="card">
-      <div class="card__header">
-        <img src="https://source.unsplash.com/600x400/?food" alt="card__image" class="card__image" width="600">
-      </div>
-      <div class="card__body">
-        <span class="tag tag-brown">Food</span>
-        <h4>Delicious Food</h4>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!</p>
-      </div>
-      <div class="card__footer">
-        <div class="user">
-          <img src="https://i.pravatar.cc/40?img=2" alt="user__image" class="user__image">
-          <div class="user__info">
-            <h5>Jony Doe</h5>
-            <small>Yesterday</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card__header">
-        <img src="https://source.unsplash.com/600x400/?car,automobile" alt="card__image" class="card__image" width="600">
-      </div>
-      <div class="card__body">
-        <span class="tag tag-red">Automobile</span>
-        <h4>Race to your heart content</h4>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!</p>
-      </div>
-      <div class="card__footer">
-        <div class="user">
-          <img src="https://i.pravatar.cc/40?img=3" alt="user__image" class="user__image">
-          <div class="user__info">
-            <h5>John Doe</h5>
-            <small>2d ago</small>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
+  <div class="my-3 mx-5">
+    {% if prev %}
+    <a class="btn btn-info text-light" href="/blog?page={{prev}}">&laquo; Previous</a>
+    {% else %}
+    <a class="btn btn-info text-light disabled" href="#">&laquo; Previous</a>
+    {% endif %}
+
+    {% if nxt %}
+    <a class="btn btn-info float-right text-light" href="/blog?page={{nxt}}">Next &raquo;</a>
+    {% else %}
+    <a class="btn btn-info float-right text-light disabled" href="#" >Next &raquo;</a>
+    {% endif %}
+    
+  </div>
+</section>
 {% endblock body %}
