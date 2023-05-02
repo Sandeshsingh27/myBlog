@@ -52,15 +52,15 @@
   </div>
   <div class="my-3 mx-5">
     {% if prev %}
-    <a class="btn btn-info text-light" href="/blog?page={{prev}}">&laquo; Previous</a>
+    <a role="button" class="btn btn-info text-light" href="/blog?page={{prev}}">&laquo; Previous</a>
     {% else %}
-    <a class="btn btn-info text-light disabled" href="#">&laquo; Previous</a>
+    <a role="button" class="btn btn-info text-light disabled" href="#">&laquo; Previous</a>
     {% endif %}
 
     {% if nxt %}
-    <a class="btn btn-info float-right text-light" href="/blog?page={{nxt}}">Next &raquo;</a>
+    <a role="button" class="btn btn-info float-right text-light" href="/blog?page={{nxt}}">Next &raquo;</a>
     {% else %}
-    <a class="btn btn-info float-right text-light disabled" href="#" >Next &raquo;</a>
+    <a role="button" class="btn btn-info float-right text-light disabled" href="#" >Next &raquo;</a>
     {% endif %}
     
   </div>
