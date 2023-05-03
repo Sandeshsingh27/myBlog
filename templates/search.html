@@ -1,7 +1,68 @@
 {% extends 'base.html' %}
 
-{% comment %} {% block homeactive %}active{% endblock homeactive %} {% endcomment %}
+{% load static %}
+
+{% block blogsactive %}active{% endblock blogsactive %}
 
 {% block body %}
-    here r ur search results
+<section id="blog">
+  <!-- {% if edit %}
+  <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    <strong>Success!</strong> Your Blog has been UPDATED.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
+  {% if delete %}
+  <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+    <strong>Hey!</strong> You have DELETED your Blog.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %} -->
+  <div class="container">
+
+    {% for blog in searchBlogs %}
+    <div class="card">
+      <div class="card__header">
+        <img src="https://source.unsplash.com/600x400/?computer" alt="card__image" class="card__image" width="600">
+      </div>
+      <div class="card__body">
+        <span class="tag tag-blue">Technology</span>
+        <h4><a href="/blogpost/{{blog.slug}}" style="color: inherit;">{{blog.title}}</a></h4>
+        <p>{{blog.content|safe|slice:80}}...</p>
+      </div>
+      <div class="card__footer">
+        <div class="user">
+          <img src="https://i.pravatar.cc/40?img=1" alt="user__image" class="user__image">
+          <div class="user__info">
+            <h5>Jane Doe</h5>
+            <small>2h ago</small>
+          </div>
+        </div>
+      </div>
+      <!-- <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your
+        Blog</button>
+      <button type="submit" class="btn btn-outline-danger mt-1"
+        onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button> -->
+    </div>
+    {% endfor %}
+  </div>
+  <div class="my-3 mx-5">
+    {% if prev %}
+    <a role="button" class="btn btn-info text-light" href="/search?query={{query}}&page={{prev}}">&laquo; Previous</a>
+    {% else %}
+    <a role="button" class="btn btn-info text-light disabled" href="#">&laquo; Previous</a>
+    {% endif %}
+
+    {% if nxt %}
+    <a role="button" class="btn btn-info float-right text-light" href="/search?query={{query}}&page={{nxt}}">Next &raquo;</a>
+    {% else %}
+    <a role="button" class="btn btn-info float-right text-light disabled" href="#" >Next &raquo;</a>
+    {% endif %}
+    
+  </div>
+</section>
 {% endblock body %}
