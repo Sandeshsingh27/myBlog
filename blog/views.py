@@ -3,6 +3,7 @@ from .models import *
 from django.urls import reverse
 from urllib.parse import urlencode
 import math
+from django.contrib import messages
 
 # Create your views here.
 
@@ -95,8 +96,17 @@ def search(request):
     else:
         page = int(page)
 
-    # fetching all blogs from database
-    searchBlogs= Blog.objects.filter(title__icontains=query)
+    # fetching all blogs from database according to the search query and
+    # if length of query is greater than specified character than don't display the result
+    if len(query) > 60:
+        searchBlogs = Blog.objects.none()
+    else:
+        searchBlogsTitle= Blog.objects.filter(title__icontains=query)
+        searchBlogsContent= Blog.objects.filter(content__icontains=query)
+        searchBlogs=searchBlogsTitle.union(searchBlogsContent)
+    # if query serach result is not found then using DJANGO FLASH MESSAGES feature
+    if searchBlogs.count() == 0:
+        messages.warning(request, "No Search Results Found! Please refine your query.")
     # counting all blogs in the databases to perform pagination logic
     length = len(searchBlogs)
     # here we are using python slicing function
@@ -116,8 +126,7 @@ def search(request):
         nxt=None
     
     # PAGINATION LOGIC ENDS
-    
-    
+
     context={'searchBlogs':searchBlogs, 'prev':prev, 'nxt':nxt,'query':query}
     return render(request, "search.html", context)
 
