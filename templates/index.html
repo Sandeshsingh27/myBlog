@@ -19,6 +19,19 @@ background: #f7f7f7 !important;
 </div>
 {% endif %}
 
+{% if messages %}
+{% for message in messages %}
+<div
+  class="alert alert-{% if message.tags == 'error' %}danger {% elif message.tags == 'warning' %}warning {% elif message.tags == 'success' %}success {% else %}info {% endif %} alert-dismissible fade show mb-0"
+  role="alert">
+  <strong>Message:-</strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+{% endif %}
+
 <section>
   <div class="container front-container px-0 my-0">
     <!-- https://source.unsplash.com/1600x650/?programming, coding || this is an api for images -->
@@ -32,10 +45,14 @@ background: #f7f7f7 !important;
           Sign up to discover why millions of people have published their passions here.</p>
       </div>
 
+      {% if not user.is_authenticated %}
       <div class="button">
-        <button type="button" class="btn btn-danger btn-lg">Log In</button>
+        <!-- Button trigger for login modal -->
+        <button type="submit" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#loginModal">Log
+          In</button>
         <a href="#addBlog" class="btn btn-info btn-lg" role="button">Add Blog</a>
       </div>
+      {% endif %}
 
     </div>
 
@@ -97,12 +114,10 @@ background: #f7f7f7 !important;
           <img class="d-block w-100" src="{% static 'img/river-canal.jpeg' %}" alt="First slide">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="{% static 'img/forest.jpeg' %}"
-            alt="Second slide">
+          <img class="d-block w-100" src="{% static 'img/forest.jpeg' %}" alt="Second slide">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="{% static 'img/coding.jpeg' %}"
-            alt="Third slide">
+          <img class="d-block w-100" src="{% static 'img/coding.jpeg' %}" alt="Third slide">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
@@ -123,7 +138,8 @@ background: #f7f7f7 !important;
       {% csrf_token %}
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title for your blog" required>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title for your blog"
+          required>
       </div>
       <div class="form-group">
         <label for="content">Content</label>

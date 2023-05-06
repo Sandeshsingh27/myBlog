@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import *
 from django.urls import reverse
 from urllib.parse import urlencode
 import math
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -181,3 +183,77 @@ def delete(request, sno):
     context.update({'item':item})
     return render(request, 'blog.html', context)
 
+
+# we cannot use login and logout keywords as these are reserved keywords of django
+def signin(request):
+    # if method is post then perform the action otherwise if it is get(ie, if user enter /login in the url then show error message)
+    if request.method=='POST':
+        loginusername= request.POST.get('loginusername')
+        loginpass=request.POST.get('loginpass')
+
+        user=authenticate(request, username=loginusername, password=loginpass)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Successfully Logged In")
+            return redirect("index")
+        else:
+            messages.error(request, "Invalid Credentials! Please try again")
+            return redirect("index")
+    else:
+        return HttpResponse("404 - NOT FOUND")
+
+def signout(request):
+    logout(request)
+    messages.success(request, "Successfully Logged Out")
+    return redirect('index')
+
+
+def signup(request):
+    # if method is post then perform the action otherwise if it is get(ie, if user enter /signup in the url then show error message)
+    if request.method=='POST':
+        username= request.POST.get('username')
+        fname=request.POST.get('fname')
+        lname=request.POST.get('lname')
+        email=request.POST.get('email')
+        pass1=request.POST.get('pass1')
+        pass2=request.POST.get('pass2')
+
+        # Check for errorneous inputs
+
+        # username shoud be under 10 characters
+        if (len(username) > 10):
+            messages.error(request, "Your username must be under 10 characters")
+            return redirect('/')
+
+        # if User.objects.get(username=username):
+        #     messages.error(request, "Your username has already been taken. Enter unique username!")
+        #     return redirect('/')
+        
+        # username should be alpha-numeric only
+        if not username.isalnum():
+            messages.error(request, "Your username must only contains letter and numbers")
+            return redirect('/')
+        
+        # pass1 soud match pass2
+        if pass1 != pass2:
+            messages.error(request, "Your passwords do not match")
+            return redirect('/')
+        
+        # length of pass1 must be atleast 8 characters
+        if (len(pass1) < 8):
+            messages.error(request, "Your passwords must contains atleast 8 characters")
+            return redirect('/')
+
+        # Creating user
+        my_user=User.objects.create_user(username, email, pass1)
+        my_user.first_name=fname
+        my_user.last_name=lname
+        my_user.save()
+        messages.success(request, "Your account has been successfully created")
+
+        # we can also use name of urls to redirect
+        return redirect('index')
+
+    else:
+        return HttpResponse("404 - NOT FOUND")

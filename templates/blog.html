@@ -43,10 +43,12 @@
           </div>
         </div>
       </div>
+      {% if user.is_authenticated %}
       <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your
         Blog</button>
       <button type="submit" class="btn btn-outline-danger mt-1"
         onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
