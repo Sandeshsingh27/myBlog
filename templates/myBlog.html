@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
-{% block blogsactive %}active{% endblock blogsactive %}
-
 {% block body %}
 <section id="blog">
   <div class="container">
@@ -27,16 +23,14 @@
           </div>
         </div>
       </div>
-      {% if user.is_authenticated %}
       <button type="submit" class="btn btn-info d-block" onclick="location.href='{% url 'edit' blog.sno %}'">Edit your
         Blog</button>
       <button type="submit" class="btn btn-outline-danger mt-1"
         onclick="location.href='{% url 'delete' blog.sno %}'">Delete your Blog</button>
-      {% endif %}
     </div>
     {% endfor %}
   </div>
-  <div class="my-3 mx-5">
+  {% comment %} <div class="my-3 mx-5">
     {% if prev %}
     <a role="button" class="btn btn-info text-light" href="/blog?page={{prev}}">&laquo; Previous</a>
     {% else %}
@@ -49,6 +43,6 @@
     <a role="button" class="btn btn-info float-right text-light disabled" href="#" >Next &raquo;</a>
     {% endif %}
     
-  </div>
+  </div> {% endcomment %}
 </section>
 {% endblock body %}

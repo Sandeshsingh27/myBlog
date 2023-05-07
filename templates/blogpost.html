@@ -36,10 +36,14 @@
         </div>
         
         <div class="row blogcontent">
-            <a class="col-12" href="{% url 'blog' %}" style="text-decoration: none;"><< Back To Blog</a>
+            <a class="col-12" href="{% url 'blog' %}" style="text-decoration: none;"><< Back To All Blogs</a>
+            {% if user.is_authenticated %}
+            <a class="col-12" href="{% url 'myBlog' request.user %}" style="text-decoration: none;"><< Back To Your Blogs</a>
+            {% endif %}
             <h3 class="col-12 text-uppercase mx-auto my-4 text-center">{{blog.title}}</h3>
             <div class="col-lg-12 col-md-12 mx-auto">
-                <div class="font-weight-light" style="margin-bottom: 10px">{{blog.time.date}} at {{blog.time.time}}</div>
+                <div class="font-weight-light">{{blog.time.date}} at {{blog.time.time}}</div>
+                <div class="font-weight-light" style="margin-bottom: 10px">By:- {{blog.author}}</div>
                 <div class="text-content blogbody font-weight-normal">
                     {{blog.content|safe}}
                 </div>

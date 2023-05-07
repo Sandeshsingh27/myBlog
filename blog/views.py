@@ -13,11 +13,11 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, "index.html")
 
-def blog(request):
+def pagination(page, blogs):
     # PAGINATION LOGIC STARTS
     # designing pagination logic
-    no_of_posts=3
-    page= request.GET.get('page') # fetching value from url
+    no_of_posts=5
+    # page= request.GET.get('page') # fetching value from url
 
     # By default, request.GET.get('page') returns string and if there is no page then return None
     # so if there is no page, make page = 1 otherwise convert ot integer
@@ -26,8 +26,7 @@ def blog(request):
     else:
         page = int(page)
 
-    # fetching all blogs from database
-    blogs=Blog.objects.all()
+    
     # counting all blogs in the databases to perform pagination logic
     length = len(blogs)
     # here we are using python slicing function
@@ -45,13 +44,23 @@ def blog(request):
         nxt=page+1
     else:
         nxt=None
+
+    return blogs, prev, nxt
     
     # PAGINATION LOGIC ENDS
+
+def blog(request):
+    # fetching all blogs from database
+    blogs=Blog.objects.all()
+    page= request.GET.get('page')
+
+    blogs, prev, nxt = pagination(page, blogs)
 
     # getting variable passed from delete function to render some alert on blog.html through redirect method
     delete = True if request.GET.get('delete') else False
     if delete:
         messages.warning(request, "Your Blog has been DELETED")
+
     # getting variable passed from update function to render some alert on blog.html through redirect method
     edit = True if request.GET.get('edit') else False
     if edit:
@@ -77,9 +86,15 @@ def addBlog(request):
             return redirect("index")
     return render(request,"addBlog.html")
 
+def myBlog(request, username):
+    blogs= Blog.objects.filter(author=username)
+
+    context={'blogs':blogs}
+    return render(request, "myBlog.html", context)
+
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123
-def blogpost(request, slug):
-    blog= Blog.objects.filter(slug=slug).first()
+def blogpost(request, sno):
+    blog= Blog.objects.get(sno=sno)
     context={'blog':blog}
     return render(request, "blogpost.html", context)
 
@@ -97,17 +112,7 @@ def contact(request):
 
 def search(request):
     query=request.GET.get('query')
-    # PAGINATION LOGIC STARTS
-    # designing pagination logic
-    no_of_posts=3
     page= request.GET.get('page') # fetching value from url
-
-    # By default, request.GET.get('page') returns string and if there is no page then return None
-    # so if there is no page, make page = 1 otherwise convert ot integer
-    if page is None:
-        page = 1
-    else:
-        page = int(page)
 
     # fetching all blogs from database according to the search query and
     # if length of query is greater than specified character than don't display the result
@@ -120,25 +125,8 @@ def search(request):
     # if query serach result is not found then using DJANGO FLASH MESSAGES feature
     if searchBlogs.count() == 0:
         messages.warning(request, "No Search Results Found! Please refine your query.")
-    # counting all blogs in the databases to perform pagination logic
-    length = len(searchBlogs)
-    # here we are using python slicing function
-    # below line just used to show how many blogs can be rendered on blog page and from where to where (ie, if page = 1, then blogs from index 0 to 2 will be displayed)
-    searchBlogs = searchBlogs[(page-1)*no_of_posts: page*no_of_posts]
 
-    # if page is greater than 1 then prev will be decremented by page-1 else make it None
-    if page > 1:
-        prev=page-1
-    else:
-        prev=None
-
-    # Similarly, if page is less than ceiling value of required number of pages then nxt will be incremented by page+1 else make it None
-    if page<math.ceil(length/no_of_posts):
-        nxt=page+1
-    else:
-        nxt=None
-    
-    # PAGINATION LOGIC ENDS
+    searchBlogs, prev, nxt = pagination(page, searchBlogs)
 
     context={'searchBlogs':searchBlogs, 'prev':prev, 'nxt':nxt,'query':query}
     return render(request, "search.html", context)
