@@ -65,9 +65,10 @@ def addBlog(request):
     if request.method=='POST':
         title=request.POST['title']
         content=request.POST['content']
+        author=request.POST['author']
         slug=request.POST.get('slug')
         try:
-            data=Blog(title=title, content=content, slug=slug)
+            data=Blog(title=title, content=content, author=author, slug=slug)
             data.save()
             messages.success(request, "Your Blog has been added to the list")
             return redirect("index")
@@ -180,8 +181,6 @@ def delete(request, sno):
 
     if item:
         item.delete()
-
-        print('Blog updated')
 
         # here we are passing value through url to the redirecting page
         base_url = reverse('blog')  # 1 /blog/
