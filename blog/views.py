@@ -11,19 +11,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    if request.method=='POST':
-        title=request.POST['title']
-        content=request.POST['content']
-        slug=request.POST.get('slug')
-        try:
-            data=Blog(title=title, content=content, slug=slug)
-            data.save()
-            # context={'success':True}
-            messages.success(request, "Your Blog has been added to the list")
-            return redirect("index")
-        except:
-            messages.error(request, "There was an error in saving your blog")
-            return redirect("index")
     return render(request, "index.html")
 
 def blog(request):
@@ -75,6 +62,18 @@ def blog(request):
 
 @login_required(login_url='/signin/')
 def addBlog(request):
+    if request.method=='POST':
+        title=request.POST['title']
+        content=request.POST['content']
+        slug=request.POST.get('slug')
+        try:
+            data=Blog(title=title, content=content, slug=slug)
+            data.save()
+            messages.success(request, "Your Blog has been added to the list")
+            return redirect("index")
+        except:
+            messages.error(request, "There was an error in saving your blog")
+            return redirect("index")
     return render(request,"addBlog.html")
 
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123
@@ -92,7 +91,7 @@ def contact(request):
 
         instance = Contact(name=name, email=email, phone=phone, desc=desc)
         instance.save()
-        print("Contact details are saved")
+        messages.success(request, "Your query has been saved")
     return render(request, "contact.html")
 
 def search(request):

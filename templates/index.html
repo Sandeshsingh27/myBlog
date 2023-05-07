@@ -115,7 +115,7 @@ background: #f7f7f7 !important;
 <section id="addBlog">
   <div class="container d-block  my-0 px-0 pb-5">
     <h2 class="text-center pt-5">Add Blog</h2>
-    <form name="addBlogForm" action="/" method="post" onsubmit="return titleRequired('add')">
+    <form name="addBlogForm" action="/addBlog/" method="post" onsubmit="return titleRequired('add')">
       {% csrf_token %}
       <div class="form-group">
         <label for="title">Title</label>
