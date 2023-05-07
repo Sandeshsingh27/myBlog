@@ -35,19 +35,25 @@
             <a class="dropdown-item" href="/addBlog">Add Blog</a>
             <!-- <a class="dropdown-item" href="#">Another action</a> -->
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/signout">Log Out</a>
+          <a class="dropdown-item" href="/signout">Sign Out</a>
           </div>
         </li>
       </ul>
       {% else %}
       <!-- Button trigger for login modal -->
-      <button type="submit" class="btn btn-info ml-2" data-toggle="modal" data-target="#loginModal">
+      {% comment %} <button type="submit" class="btn btn-info ml-2" data-toggle="modal" data-target="#loginModal">
         LogIn
-      </button>
+      </button> {% endcomment %}
+      <a href="/signin" type="button" class="btn btn-info ml-2">
+        SignIn
+      </a>
       <!-- Button trigger for signup modal -->
-      <button type="submit" class="btn btn-info ml-2" data-toggle="modal" data-target="#signupModal">
+      {% comment %} <button type="submit" class="btn btn-info ml-2" data-toggle="modal" data-target="#signupModal">
         SignUp
-      </button>
+      </button> {% endcomment %}
+      <a href="/signup" type="button" class="btn btn-info ml-2">
+        SignUp
+      </a>
       {% endif %}
     </div>
   </div>

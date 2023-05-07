@@ -58,8 +58,11 @@
   <!-- importing navbar.html file -->
   {% include "navbar.html" %}
 
+  <!-- For displaying flash messages -->
+  {% include "messages.html" %}
+
   <!-- importing modal.html file -->
-  {% include "modals.html" %}
+  {% comment %} {% include "modals.html" %} {% endcomment %}
 
 
   {% block body %}

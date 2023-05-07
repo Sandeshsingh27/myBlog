@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    context={'success':False}
     if request.method=='POST':
         title=request.POST['title']
         content=request.POST['content']
@@ -211,9 +210,9 @@ def signin(request):
             return redirect("index")
         else:
             messages.error(request, "Invalid Credentials! Please try again")
-            return redirect("index")
-    else:
-        return HttpResponse("404 - NOT FOUND")
+            return redirect("signin")
+        
+    return render(request, "signin.html")
 
 def signout(request):
     logout(request)
@@ -236,7 +235,7 @@ def signup(request):
         # username shoud be under 10 characters
         if (len(username) > 10):
             messages.error(request, "Your username must be under 10 characters")
-            return redirect('/')
+            return redirect('/signup')
 
         # if User.objects.get(username=username):
         #     messages.error(request, "Your username has already been taken. Enter unique username!")
@@ -245,17 +244,17 @@ def signup(request):
         # username should be alpha-numeric only
         if not username.isalnum():
             messages.error(request, "Your username must only contains letter and numbers")
-            return redirect('/')
+            return redirect('/signup')
         
         # pass1 soud match pass2
         if pass1 != pass2:
             messages.error(request, "Your passwords do not match")
-            return redirect('/')
+            return redirect('/signup')
         
         # length of pass1 must be atleast 8 characters
         if (len(pass1) < 8):
             messages.error(request, "Your passwords must contains atleast 8 characters")
-            return redirect('/')
+            return redirect('/signup')
 
         # Creating user
         my_user=User.objects.create_user(username, email, pass1)
@@ -265,7 +264,6 @@ def signup(request):
         messages.success(request, "Your account has been successfully created")
 
         # we can also use name of urls to redirect
-        return redirect('index')
-
-    else:
-        return HttpResponse("404 - NOT FOUND")
+        return redirect('signin')
+    
+    return render(request, "signup.html")

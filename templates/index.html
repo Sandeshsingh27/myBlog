@@ -10,9 +10,6 @@ background: #f7f7f7 !important;
 {% block homeactive %}active{% endblock homeactive %}
 
 {% block body %}
-
-{% include "messages.html" %}
-
 <section>
   <div class="container front-container px-0 my-0">
     <!-- https://source.unsplash.com/1600x650/?programming, coding || this is an api for images -->
@@ -32,9 +29,7 @@ background: #f7f7f7 !important;
       </div>
       {% else %}
       <div class="button">
-        <!-- Button trigger for login modal -->
-        <button type="submit" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#loginModal">Log
-          In</button>
+        <a href="/signin" type="button" class="btn btn-danger btn-lg">SignIn</a>
         <a href="/addBlog" class="btn btn-info btn-lg" role="button">Add Blog</a>
       </div>
       {% endif %}
