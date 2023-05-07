@@ -223,9 +223,15 @@ def signup(request):
             messages.error(request, "Your username must be under 10 characters")
             return redirect('/signup')
 
-        # if User.objects.get(username=username):
-        #     messages.error(request, "Your username has already been taken. Enter unique username!")
-        #     return redirect('/')
+        # checking if username is unique or not
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Your username has already been taken. Try again unique username!")
+            return redirect('/signup')
+        
+        # checking if username is unique or not
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Your Email has already exists with us. Try logging in!")
+            return redirect('/signup')
         
         # username should be alpha-numeric only
         if not username.isalnum():
