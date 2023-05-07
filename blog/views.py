@@ -6,6 +6,7 @@ import math
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -72,6 +73,10 @@ def blog(request):
 
     context={'blogs':blogs, 'prev':prev, 'nxt':nxt}
     return render(request, "blog.html", context)
+
+@login_required(login_url='/signin/')
+def addBlog(request):
+    return render(request,"addBlog.html")
 
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123
 def blogpost(request, slug):

@@ -26,12 +26,16 @@ background: #f7f7f7 !important;
           Sign up to discover why millions of people have published their passions here.</p>
       </div>
 
-      {% if not user.is_authenticated %}
+      {% if user.is_authenticated %}
+      <div class="button">
+        <a href="/addBlog" class="btn btn-info btn-lg" role="button">Add Blog</a>
+      </div>
+      {% else %}
       <div class="button">
         <!-- Button trigger for login modal -->
         <button type="submit" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#loginModal">Log
           In</button>
-        <a href="#addBlog" class="btn btn-info btn-lg" role="button">Add Blog</a>
+        <a href="/addBlog" class="btn btn-info btn-lg" role="button">Add Blog</a>
       </div>
       {% endif %}
 
@@ -112,6 +116,7 @@ background: #f7f7f7 !important;
     </div>
   </div>
 </section>
+{% if user.is_authenticated %}
 <section id="addBlog">
   <div class="container d-block  my-0 px-0 pb-5">
     <h2 class="text-center pt-5">Add Blog</h2>
@@ -132,22 +137,40 @@ background: #f7f7f7 !important;
         <label for="slug">Slug</label>
         <input type="text" name="slug" class="form-control" id="slug" placeholder="Enter slug for your blog">
       </div>
-      <button type="submit" class="btn btn-outline-danger">Add</button>
+      <button type="submit" class="btn btn-outline-info">Add</button>
     </form>
   </div>
 </section>
+{% endif %}
+<section id="contact-us" style="{% if user.is_authenticated %}background: #fff; {% endif %}">
+  <div class="container my-0 pb-4 d-block">
+    <h2 class="text-center pt-5">Contact Us</h2>
+    <form action="/contact/" method="POST">
+      {% csrf_token %}
+      <div class="form-group pt-3">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+          placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+          else.</small>
+      </div>
 
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
+      </div>
 
-
-<!-- Pagination -->
-<!-- <nav aria-label="Blog pagination">
-        <ul class="pagination justify-content-between mb-5">
-          <li class="page-item"><a class="page-link text-sm rounded" href="#"> <i class="fa fa-chevron-left mr-1"></i>Older posts</a></li>
-          <li class="page-item disabled"><a class="page-link text-sm rounded" href="#" tabindex="-1">Newer posts  <i class="fa fa-chevron-right ml-1"></i></a></li>
-        </ul>
-      </nav>
-    </div>
-  </section> -->
-<!-- Footer-->
+      <div class="form-group">
+        <label for="desc">How may we help you?</label>
+        <textarea class="form-control" name="desc" id="desc" rows="5"></textarea>
+      </div>
+      <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</section>
 
 {% endblock body %}
