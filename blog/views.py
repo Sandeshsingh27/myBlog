@@ -18,11 +18,13 @@ def index(request):
         try:
             data=Blog(title=title, content=content, slug=slug)
             data.save()
-            context={'success':True}
-            print('Blog saved')
+            # context={'success':True}
+            messages.success(request, "Your Blog has been added to the list")
+            return redirect("index")
         except:
-            return 'There was an issue adding your task'
-    return render(request, "index.html", context)
+            messages.error(request, "There was an error in saving your blog")
+            return redirect("index")
+    return render(request, "index.html")
 
 def blog(request):
     # PAGINATION LOGIC STARTS
@@ -61,9 +63,14 @@ def blog(request):
 
     # getting variable passed from delete function to render some alert on blog.html through redirect method
     delete = True if request.GET.get('delete') else False
+    if delete:
+        messages.warning(request, "Your Blog has been DELETED")
+    # getting variable passed from update function to render some alert on blog.html through redirect method
     edit = True if request.GET.get('edit') else False
+    if edit:
+        messages.success(request, "Your Blog has been UPDATED")
 
-    context={'blogs':blogs, 'delete':delete, 'edit':edit, 'prev':prev, 'nxt':nxt}
+    context={'blogs':blogs, 'prev':prev, 'nxt':nxt}
     return render(request, "blog.html", context)
 
 # slug is the url part whether is a string or int after some urlpaths such as xyz123 in www.google.com/home/xyz123

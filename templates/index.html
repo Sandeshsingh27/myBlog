@@ -10,27 +10,8 @@ background: #f7f7f7 !important;
 {% block homeactive %}active{% endblock homeactive %}
 
 {% block body %}
-{% if success %}
-<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
-  <strong>Success!</strong> Your Blog has been added to the list.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endif %}
 
-{% if messages %}
-{% for message in messages %}
-<div
-  class="alert alert-{% if message.tags == 'error' %}danger {% elif message.tags == 'warning' %}warning {% elif message.tags == 'success' %}success {% else %}info {% endif %} alert-dismissible fade show mb-0"
-  role="alert">
-  <strong>Message:-</strong> {{message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endfor %}
-{% endif %}
+{% include "messages.html" %}
 
 <section>
   <div class="container front-container px-0 my-0">
