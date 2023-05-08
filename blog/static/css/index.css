@@ -55,3 +55,45 @@
     padding: 15px;
     background-size: 15px;
 }
+
+/* CSS starts for BackToTop-button */
+html {
+  scroll-behavior: smooth;
+}
+footer .back-to-top .bttBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0;
+  z-index: 2;
+}
+footer .back-to-top .bttBtn.active {
+  opacity: 1;
+}
+footer .back-to-top .bttBtn.active:hover {
+  cursor: pointer;
+  background: #fa6742;
+  border-color: #fa6742;
+}
+
+.back-to-top .btn-dark {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  padding: 0;
+  position: fixed;
+  bottom: 20px;
+  right: 1%;
+  background: #2e2e2e;
+  border-color: #a3a2a2;
+  display: none;
+  z-index: 999;
+  transition: all 0.3s linear;
+}
+
+.back-to-top {
+  position: relative;
+  z-index: 2;
+}
+/* CSS ends for BackToTop-button */
